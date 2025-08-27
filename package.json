@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit", 
+    "build:docker": "npm run build",
+    "serve": "vite preview --host 0.0.0.0 --port 3000" 
   },
   "dependencies": {
     "react": "^18.2.0",

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # Development environment with hot reloading
+  app-dev:
+    build:
+      context: .
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WDS_SOCKET_HOST=0.0.0.0
+    stdin_open: true
+    tty: true
+    container_name: robotech-dev
+
+  # Production environment with Nginx
+  app-prod:
+    build:
+      context: .
+      target: production
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    container_name: robotech-prod
+
+  # Build only service (for CI/CD)
+  app-build:
+    build:
+      context: .
+      target: builder
+    volumes:
+      - ./dist:/app/dist
